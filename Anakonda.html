@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="js/jquery-1.11.0.js">
+			
+		</script>	
+		</script>
+		
+		<style type="text/css">
+			td {
+				width: 15px;
+				height: 15px;
+			}
+			
+			table{
+				border: 1px dashed black;
+			}
+			
+			*{
+				margin: 0px auto;
+			}
+			.red {
+				background-color: red;
+			}
+			
+			#ban{
+				width: 200px;
+				height: 200px;
+				background-color: chocolate;
+				text-align: center;
+				line-height: 200px;
+			}
+			
+			font{
+				font-size: 100px;
+				color: chartreuse;
+			}
+			
+		</style>
+		<script type="text/javascript">
+			var xSnake = [2, 3, 4, 5];
+			var ySnake = [3, 3, 3, 3];
+			var snakeArr = new Array();
+			var si;
+			var lastKey;
+			var xFood;
+			var yFood;
+			var delay = 500;
+
+			window.onload = function() {
+				var tds = document.getElementsByTagName("td");
+				for (var i = 0; i < 20; i++) {
+					snakeArr[i] = new Array();
+					for (var j = 0; j < 40; j++) {
+						snakeArr[i][j] = tds[(i * 40) + j];
+					}
+				}
+				food();
+				draw();
+				
+			}
+
+			window.onkeydown = function(event) {				
+				if (event.code == "ArrowDown" && lastKey != "ArrowUp") {
+					moveDown();
+					lastKey = event.code;
+				} else if (event.code == "ArrowUp" && lastKey != "ArrowDown") {
+					moveUp();
+					lastKey = event.code;
+				} else if (event.code == "ArrowRight" && lastKey != "ArrowLeft") {
+					moveRight();
+					lastKey = event.code;
+				} else if (event.code == "ArrowLeft" && lastKey != "ArrowRight") {
+					moveLeft();
+					lastKey = event.code;
+				}
+
+			}
+			
+			function check() {
+				if(xSnake[xSnake.length - 1] < 0){
+					xSnake[xSnake.length - 1] = 39;
+				}else if(ySnake[ySnake.length - 1] < 0){
+					ySnake[ySnake.length - 1] = 19;
+				}else if(xSnake[xSnake.length - 1] > 39){
+					xSnake[xSnake.length - 1] = 0;
+				}else if(ySnake[ySnake.length - 1] > 19){
+					ySnake[ySnake.length - 1] = 0;
+				}
+				return true;
+				
+			}
+
+			function food() {
+				var flag = true;
+
+				do {
+					xFood = parseInt(Math.random() * 40);
+					yFood = parseInt(Math.random() * 20);
+					for (var i = 0; i < xSnake.length; i++) {
+						if (!((xFood == xSnake[i]) && (yFood == ySnake[i]))) {
+							flag = false;
+						}
+					}
+				} while (flag)
+
+			}
+
+			function moveUp() {
+				clearInterval(si);
+				si = setInterval(function() {
+					var y = ySnake[ySnake.length - 1];
+					if (((y - 1) == yFood || ((y == 19)&&(y == yFood))) && xSnake[xSnake.length - 1] == xFood) {
+						xSnake.push(xFood);
+						ySnake.push(yFood);
+						$("#score").html(parseInt($("#score").html()) + 1);
+						food();
+						if (delay > 100) {
+							delay = delay * 0.9;
+						} else {
+							delay = 100;
+						}
+
+					} else {
+						for (var i = 0; i < ySnake.length - 1; i++) {
+							ySnake[i] = ySnake[i + 1];
+							xSnake[i] = xSnake[i + 1];
+						}
+						ySnake[ySnake.length - 1] = y - 1;
+					}
+
+					check();
+					remove();
+					draw();
+					
+				}, delay);
+			}
+
+			function moveDown() {
+				clearInterval(si);
+				si = setInterval(function() {
+					var y = ySnake[ySnake.length - 1];
+					if (((y + 1) == yFood || ((y == 0)&&(y == yFood))) && xSnake[xSnake.length - 1] == xFood) {
+						xSnake.push(xFood);
+						ySnake.push(yFood);
+						$("#score").html(parseInt($("#score").html()) + 1);
+						food();
+						if (delay > 100) {
+							delay = delay * 0.9;
+						} else {
+							delay = 100;
+						}
+					} else {
+						for (var i = 0; i < xSnake.length - 1; i++) {
+							xSnake[i] = xSnake[i + 1];
+							ySnake[i] = ySnake[i + 1];
+						}
+						ySnake[ySnake.length - 1] = y + 1;
+					}
+
+					check();
+					remove();
+					draw();
+					
+				}, delay);
+			}
+
+			function moveLeft() {
+				clearInterval(si);
+				si = setInterval(function() {
+					var x = xSnake[xSnake.length - 1];
+					if (((x - 1) == xFood || ((x == 39)&&(x == xFood))) && ySnake[ySnake.length - 1] == yFood) {
+						xSnake.push(xFood);
+						ySnake.push(yFood);
+						$("#score").html(parseInt($("#score").html()) + 1);
+						food();
+						if (delay > 100) {
+							delay = delay * 0.9;
+						} else {
+							delay = 100;
+						}
+					} else {
+						for (var i = 0; i < xSnake.length - 1; i++) {
+							xSnake[i] = xSnake[i + 1];
+							ySnake[i] = ySnake[i + 1];
+						}
+						xSnake[xSnake.length - 1] = x - 1;
+					}
+
+					check();
+					remove();
+					draw();
+					
+				}, delay);
+			}
+
+			function moveRight() {
+				clearInterval(si);
+				si = setInterval(function() {
+					var x = xSnake[xSnake.length - 1];
+					if (((x + 1) == xFood || ((x == 0)&&(x == xFood))) && ySnake[ySnake.length - 1] == yFood) {
+						xSnake.push(xFood);
+						ySnake.push(yFood);
+						$("#score").html(parseInt($("#score").html()) + 1);
+						food();
+						if (delay > 100) {
+							delay = delay*0.9;
+						} else {
+							delay = 100;
+						}
+					} else {
+						for (var i = 0; i < xSnake.length - 1; i++) {
+							xSnake[i] = xSnake[i + 1];
+							ySnake[i] = ySnake[i + 1];
+						}
+						xSnake[xSnake.length - 1] = x + 1;
+
+					}
+
+					check();
+					remove();
+					draw();
+					
+				},delay);
+			}
+
+			function remove() {
+				for (var i = 0; i < 20; i++) {
+					for (var j = 0; j < 40; j++) {
+						snakeArr[i][j].style.backgroundColor = "";
+					}
+				}
+			}
+
+			function draw() {
+				var color = new Array("chocolate", "orange", "yellow", "green", "blue", "lightblue", "purple");
+
+				for (var i = 0; i < ySnake.length - 1; i++) {
+					snakeArr[ySnake[i]][xSnake[i]].style.backgroundColor = color[parseInt(Math.random() * 6)];
+				}
+				snakeArr[ySnake[ySnake.length - 1]][xSnake[xSnake.length - 1]].style.backgroundColor = "red";
+				snakeArr[yFood][xFood].style.backgroundColor = "black";
+			}
+      
+      /*初始化表格*/
+			function init() {
+				document.write("<table border='1'>")
+				for (var i = 0; i < 20; i++) {
+					document.write("<tr>");
+					for (var j = 0; j < 40; j++) {
+						document.write("<td></td>");
+					}
+					document.write("</tr>");
+				}
+				document.write("</table>");
+			}
+			init();
+			
+		</script>
+	</head>
+
+	<body>
+		
+			<div id="ban">
+				<font id="score" >0</font>
+			</div>
+		
+	</body>
+
+</html>
