@@ -242,7 +242,8 @@
 					}
 				}
 			}
-
+			
+			<!--画蛇-->
 			function draw() {
 				var color = new Array("chocolate", "orange", "yellow", "green", "blue", "lightblue", "purple");
 
@@ -252,8 +253,8 @@
 				snakeArr[ySnake[ySnake.length - 1]][xSnake[xSnake.length - 1]].style.backgroundColor = "red";
 				snakeArr[yFood][xFood].style.backgroundColor = "black";
 			}
-      			<!--初始化-->
-     			 /*初始化表格*/
+				
+      			<!--初始化表格-->
 			function init() {
 				document.write("<table border='1'>")
 				for (var i = 0; i < 20; i++) {
@@ -272,9 +273,9 @@
 
 	<body>
 		
-			<div id="ban">
-				<font id="score" >0</font>
-			</div>
+		<div id="ban">
+			<font id="score" >0</font>
+		</div>
 		
 	</body>
 
