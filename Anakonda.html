@@ -49,7 +49,8 @@
 			var xFood;
 			var yFood;
 			var delay = 500;
-
+			
+			<!--显示-->
 			window.onload = function() {
 				var tds = document.getElementsByTagName("td");
 				for (var i = 0; i < 20; i++) {
@@ -62,7 +63,8 @@
 				draw();
 				
 			}
-
+			
+			<!--键盘控制-->
 			window.onkeydown = function(event) {				
 				if (event.code == "ArrowDown" && lastKey != "ArrowUp") {
 					moveDown();
@@ -80,6 +82,7 @@
 
 			}
 			
+			<!--边界检查-->
 			function check() {
 				if(xSnake[xSnake.length - 1] < 0){
 					xSnake[xSnake.length - 1] = 39;
@@ -93,7 +96,8 @@
 				return true;
 				
 			}
-
+			
+			<!--生成食物-->
 			function food() {
 				var flag = true;
 
@@ -108,7 +112,8 @@
 				} while (flag)
 
 			}
-
+			
+			<!--上移-->
 			function moveUp() {
 				clearInterval(si);
 				si = setInterval(function() {
@@ -138,7 +143,8 @@
 					
 				}, delay);
 			}
-
+			
+			<!--下移-->
 			function moveDown() {
 				clearInterval(si);
 				si = setInterval(function() {
@@ -167,7 +173,8 @@
 					
 				}, delay);
 			}
-
+				
+			<!--左移-->
 			function moveLeft() {
 				clearInterval(si);
 				si = setInterval(function() {
@@ -196,7 +203,8 @@
 					
 				}, delay);
 			}
-
+			
+			<!--右移-->
 			function moveRight() {
 				clearInterval(si);
 				si = setInterval(function() {
@@ -244,8 +252,8 @@
 				snakeArr[ySnake[ySnake.length - 1]][xSnake[xSnake.length - 1]].style.backgroundColor = "red";
 				snakeArr[yFood][xFood].style.backgroundColor = "black";
 			}
-      
-      /*初始化表格*/
+      			<!--初始化-->
+     			 /*初始化表格*/
 			function init() {
 				document.write("<table border='1'>")
 				for (var i = 0; i < 20; i++) {
